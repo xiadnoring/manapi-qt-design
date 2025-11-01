@@ -1,0 +1,17 @@
+QPushButton {
+    border: 1px solid $SECONDARY_BG;
+    background-color: $DEFAULT_BG;
+    padding: 5px 15px;
+    border-radius: 7px;
+    color: $DEFAULT_FG;
+    font-weight: 400;
+    outline: none;
+}
+
+QPushButton:focus {
+    border: 1px solid $PRIMARY_BG;
+}
+
+QPushButton:disabled {
+    color: $SECONDARY_BG;
+}

@@ -1,0 +1,16 @@
+{
+  "vars": {
+    "$PRIMARY_BG": "#3675f0",
+    "$PRIMARY_FG": "#ffffff",
+    "$DEFAULT_BG": "#2b2d30",
+    "$DEFAULT_FG": "#ffffff",
+    "$SECONDARY_BG": "#4f5258",
+    "$SECONDARY_FG": "#CCD8DB",
+    "$CONTENT_BG": "#1E1F22",
+    "$CONTENT_FG": "#CCD8DB",
+    "$SELECTED_BG": "#2E436E",
+    "$SELECTED_FG": "#CCD8DB",
+    "$CONTENT_SEL_BG": "#26282E",
+    "$CONTENT_SEL_FG": "#CCD8DB"
+  }
+}

@@ -1,0 +1,8 @@
+QToolBar {
+    background-color: $DEFAULT_BG;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid $CONTENT_BG;
+    padding: 0px 0px 0px 1px;
+}

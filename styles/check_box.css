@@ -1,0 +1,43 @@
+QCheckBox::indicator {
+    background-color: $DEFAULT_BG;
+    border-radius: 8px;
+    color: $DEFAULT_FG;
+    outline: none;
+    width: 16px;
+    height: 16px;
+}
+
+QCheckBox::indicator:checked, QCheckBox::indicator:indeterminate {
+    background-color: $PRIMARY_BG;
+    border: 4px solid transparent;
+}
+
+QCheckBox::indicator:checked:focus, QCheckBox::indicator:indeterminate:focus {
+    background-color: $PRIMARY_BG;
+    border: 4px solid $PRIMARY_BG;
+}
+
+QCheckBox::indicator:unchecked {
+    border: 4px solid transparent;
+}
+
+QCheckBox::indicator:unchecked:focus {
+    border: 4px solid transparent;
+}
+
+QCheckBox::indicator:disabled {
+    color: $SECONDARY_BG;
+}
+
+QCheckBox::indicator:checked:disabled, QCheckBox::indicator:indeterminate:disabled{
+    background-color: $SECONDARY_BG;
+    border-color: transparent;
+}
+
+QCheckBox:disabled {
+    color: $SECONDARY_BG;
+}
+
+QCheckBox {
+    outline: none;
+}

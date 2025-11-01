@@ -1,0 +1,18 @@
+{
+  "theme": "dark-theme.json",
+  "icons": "./resources/materialdesignicons-webfont.svg",
+  "css": [
+    "button_primary.css",
+    "button_secondary.css",
+    "button_icon.css",
+    "button_flat.css",
+    "lineedit.css",
+    "check_box.css",
+    "toolbar.css",
+    "button_tool.css",
+    "toolbox.css",
+    "menu.css",
+    "tree_view.css",
+    "app.css"
+  ]
+}

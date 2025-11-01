@@ -1,0 +1,29 @@
+QToolButton {
+    background-color: $DEFAULT_BG;
+    padding: 2px 15px;
+    border-radius: 0px;
+    color: $DEFAULT_FG;
+    font-weight: 400;
+    outline: none;
+}
+
+QToolButton[manapihover="1"] {
+    background-color: $SECONDARY_BG;
+    color: $SECONDARY_FG;
+}
+
+QToolButton[manapihover="0"] {
+    background-color: $DEFAULT_BG;
+    color: $DEFAULT_FG;
+}
+
+
+QToolButton:disabled {
+    padding: 5px 15px;
+    color: $SECONDARY_BG;
+}
+
+QToolButton::menu-indicator {
+    image: none;
+    outline: none;
+}

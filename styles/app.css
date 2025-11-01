@@ -1,0 +1,254 @@
+QWidget {
+    background-color: $DEFAULT_BG;
+    color: $DEFAULT_FG;
+    border: none;
+}
+
+QScrollBar,
+QScrollBar::handle,
+QScrollBar::add-line,
+QScrollBar::sub-line {
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+QScrollBar::add-page, QScrollBar:sub-page {
+    background: transparent;
+}
+
+QScrollBar::handle:vertical {
+    margin-left: 1px;
+}
+
+QScrollBar::handle:horizontal {
+    margin-top: 1px;
+}
+
+QScrollBar::handle {
+    background-color: $SECONDARY_BG;
+    border-radius: 2px;
+    padding: 1px;
+}
+
+QScrollArea {
+    background: transparent;
+}
+
+QScrollBar:horizontal {
+    height: 10px;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+QScrollBar:sub-page:pressed {
+    background: transparent;
+}
+
+QScrollBar:add-page:pressed {
+    background: transparent;
+}
+
+QScrollBar:vertical {
+    width: 10px;
+    border: none;
+    outline: none;
+    margin: 4px 0px;
+    background: transparent;
+}
+
+QAbstractScrollArea::corner {
+    background-color: none;
+    border: none;
+}
+
+QSplitter {
+    background-color: $CONTENT_BG;
+    width: 1px;
+    margin: 0;
+    padding: 0;
+}
+
+QSplitter::handle {
+    image:none;
+    width: 1px;
+    margin: 0;
+    padding: 0;
+    background-color: $CONTENT_BG;
+}
+
+QHBoxLayout {
+    margin: 0;
+    padding: 0;
+}
+
+QMenu {
+    background-color: $DEFAULT_BG;
+    border: 1px solid $SECONDARY_BG;
+    icon-size: 20px;
+    padding: 5px 0px;
+}
+
+QMenu::item {
+    margin: 1px 7px 1px 7px;
+    padding: 2px 6px;
+    min-width: 120px;
+    background-color: transparent;
+    color: $DEFAULT_FG;
+}
+
+QMenu::item:disabled {
+    color: $SECONDARY_BG;
+}
+
+QMenu::item:selected:!disabled {
+    background-color: $SELECTED_BG;
+    color: $SELECTED_FG;
+    border-radius: 4px;
+}
+
+QMenu::separator {
+    height: 1px;
+    background-color: $SECONDARY_BG;
+    margin: 4px 0 4px 0;
+    padding: 0;
+}
+
+QMenu::icon {
+    left: 8px;
+}
+
+/** QTextEdit **/
+/** QLine **/
+
+QLineEdit, QTextEdit {
+    border: 1px solid $SECONDARY_BG;
+    background-color: $DEFAULT_BG;
+    selection-background-color: $SELECTED_BG;
+    padding: 5px 15px;
+    border-radius: 7px;
+    color: $DEFAULT_FG;
+    font-weight: 400;
+    outline: none;
+}
+
+QTextEdit {
+    selection-color: $SELECTED_FG;
+}
+
+QLineEdit {
+    selection-color: $SELECTED_FG;
+}
+
+QLineEdit:focus, QTextEdit:focus {
+    border: 1px solid $PRIMARY_BG;
+}
+
+QLineEdit:disabled, QTextEdit:disabled {
+    color: $SECONDARY_BG;
+}
+
+/* QTabWidget */
+
+QTabBar::tab {
+    background-color: $DEFAULT_BG;
+    padding: 5px 15px;
+    border-radius: 0px;
+    color: $DEFAULT_FG;
+    font-weight: 400;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid $DEFAULT_BG;
+    /*margin-bottom: 3px;*/
+}
+
+QTabBar::tab:hover {
+    background-color: $SECONDARY_BG;
+    color: $SECONDARY_FG;
+    border-bottom: 2px solid $SECONDARY_BG;
+}
+
+QTabBar::tab:selected {
+    border-bottom: 2px solid $SECONDARY_BG;
+}
+
+QTabBar::tab:selected:active {
+    border-bottom: 2px solid $PRIMARY_BG;
+}
+
+QTabBar::tab:disabled {
+    padding: 5px 15px;
+    color: $SECONDARY_BG;
+}
+
+/* QTableWidget */
+
+QTableView {
+    border: none;
+    selection-background-color: $SELECTED_BG;
+    gridline-color: $DEFAULT_BG;
+}
+
+QTableWidget {
+    background: $CONTENT_BG;
+    color: $CONTENT_FG;
+    outline: none;
+}
+
+QTableView QTableCornerButton::section {
+    border: 1px solid $CONTENT_BG;
+    background: $DEFAULT_BG;
+}
+
+QTableView QHeaderView {
+    background: $CONTENT_BG;
+    color: $CONTENT_FG;
+    padding: 0;
+    margin: 0;
+}
+
+QTableView QHeaderView::section:horizontal {
+    border: 1px solid $CONTENT_BG;
+    border-left: none;
+    background: $DEFAULT_BG;
+}
+
+QTableView QHeaderView::section:vertical {
+    border: 1px solid $DEFAULT_BG;
+    border-top: none;
+    border-left: none;
+    background: $CONTENT_BG;
+    color: $SECONDARY_BG;
+}
+
+QTableView QHeaderView::section:vertical:checked, QTableView QHeaderView::section:vertical:pressed, QTableView QTableCornerButton::section:pressed {
+    background: $CONTENT_SEL_BG;
+    color: $CONTENT_SEL_FG;
+    font-weight: 400;
+}
+
+QTableView QHeaderView::section:horizontal:checked, QTableView QHeaderView::section:horizontal:pressed {
+    background: $CONTENT_SEL_BG;
+    color: $CONTENT_SEL_FG;
+    font-weight: 400;
+}
+
+QTableView QLineEdit {
+    border-radius: 0;
+}
+
+QTableWidget::item:selected {
+    border: none;
+    outline: none;
+    background: $CONTENT_SEL_BG;
+    color: $CONTENT_SEL_FG;
+}
+
+QTableWidget::item {
+    border: none;
+    outline: none;
+    color: $CONTENT_FG;
+    background: $CONTENT_BG;
+    margin: 0;
+}

@@ -1,0 +1,35 @@
+QMenu {
+    background-color: $DEFAULT_BG;
+    border: 1px solid $SECONDARY_BG;
+    icon-size: 20px;
+    padding: 5px 2px;
+}
+
+QMenu::item {
+    margin: 1px 5px 1px 5px;
+    padding: 2px 6px;
+    min-width: 120px;
+    background-color: transparent;
+    color: $SECONDARY_FG;
+}
+
+QMenu::item:disabled {
+    color: $SECONDARY_BG;
+}
+
+QMenu::item:selected:!disabled {
+    background-color: $SELECTED_BG;
+    color: $SELECTED_FG;
+    border-radius: 4px;
+}
+
+QMenu::separator {
+    height: 1px;
+    background-color: $SECONDARY_BG;
+    margin: 4px 0 4px 0;
+    padding: 0;
+}
+
+QMenu::icon {
+    left: 8px;
+}
