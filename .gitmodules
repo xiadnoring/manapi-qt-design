@@ -1,0 +1,3 @@
+[submodule "manapiqt"]
+	path = manapiqt
+	url = https://github.com/xiadnoring/manapi-qt-extension
