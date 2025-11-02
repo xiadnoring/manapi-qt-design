@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 4.1)
-project(manapiqtdesign)
+project(manapiqtdesign LANGUAGES CXX VERSION 1.0.0 DESCRIPTION "Qt6/7 Norm Design")
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
