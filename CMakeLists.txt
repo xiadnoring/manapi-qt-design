@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.1)
+cmake_minimum_required(VERSION 3.5)
 project(manapiqtdesign LANGUAGES CXX VERSION 1.0.0 DESCRIPTION "Qt6/7 Norm Design")
 
 set(CMAKE_CXX_STANDARD 23)
@@ -79,7 +79,7 @@ else ()
     endif ()
 
 
-    install(TARGETS ${PROJECT_NAME} EXPORT manapiqt-targets
+    install(TARGETS ${PROJECT_NAME} EXPORT manapiqtdesign-targets
             ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
             LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
             RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -95,7 +95,7 @@ else ()
     install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
     # install(DIRECTORY ${CMAKE_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
 
-    install(EXPORT manapiqt-targets
+    install(EXPORT manapiqtdesign-targets
             DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
             #            CXX_MODULES_DIRECTORY .
     )
