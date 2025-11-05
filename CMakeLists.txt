@@ -52,7 +52,9 @@ set(FILES ./manapiqt/include/ManapiQt.hpp
         src/ManapiTreeView.cpp
         include/ManapiTreeView.hpp
         include/ManapiTableView.hpp
-        src/ManapiTableView.cpp)
+        src/ManapiTableView.cpp
+        include/ManapiScrollBar.hpp
+        src/ManapiScrollBar.cpp)
 
 if (MANAPIQT_BUILD_TYPE STREQUAL "exe")
     add_executable(${PROJECT_NAME} main.cpp ${FILES})
@@ -91,7 +93,7 @@ else ()
             #            FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECTNAME}
     )
 
-    install(DIRECTORY manapiqt/include DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
+    install(DIRECTORY manapiqt/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
     install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
     # install(DIRECTORY ${CMAKE_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
 

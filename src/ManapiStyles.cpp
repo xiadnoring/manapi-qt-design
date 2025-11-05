@@ -27,7 +27,9 @@ static std::string folder_path_;
 
 thread_local QHash<QString, QString> svg_paths_;
 
-thread_local std::map<QWidget *, std::string, std::less<>> subscribers;
+thread_local std::map<QWidget *, std::vector<std::string>, std::less<>> subscribers;
+
+thread_local std::map<void *, std::move_only_function<void()>> subscribers_cb;
 
 thread_local style_ctx_t style_ctx = {
     {},
@@ -159,7 +161,9 @@ manapi::error::status manapi::qt::init_styles(std::string folder) MANAPIHTTP_NOE
         xml_parser.setContentHandler(&glyph_reader);
 
         QFile svg_font(QString::fromStdString(icons_path));
-        svg_font.open(QFile::ReadOnly);
+        if (!svg_font.open(QFile::ReadOnly)) {
+            return manapi::error::status_internal("qt:open file failed");
+        }
         QXmlInputSource xml_source(&svg_font);
 
         bool parse_ok = xml_parser.parse(&xml_source);
@@ -236,11 +240,20 @@ manapi::future<manapi::error::status> manapi::qt::load_styles(std::string folder
                 subscriber.first->repaint();
             }
             else {
-                auto fit = style_ctx.stylesheets.find(subscriber.second);
-                if (fit != style_ctx.stylesheets.end()) {
-                    subscriber.first->setStyleSheet(fit->second);
+                QString res;
+                for (auto & css_name : subscriber.second) {
+                    auto fit = style_ctx.stylesheets.find(css_name);
+                    if (fit != style_ctx.stylesheets.end()) {
+                        res.append(fit->second);
+                        res.push_back('\n');
+                    }
                 }
+                subscriber.first->setStyleSheet(res);
             }
+        }
+
+        for (auto & subscriber : subscribers_cb) {
+            subscriber.second ();
         }
 
         co_return manapi::error::status_ok();
@@ -260,7 +273,7 @@ void manapi::qt::update_stylesheet(QWidget *app, std::string_view name) MANAPIHT
 
 manapi::error::status manapi::qt::subscribe_stylesheet(QWidget *app) MANAPIHTTP_NOEXCEPT {
     try {
-        subscribers.insert_or_assign(app, std::string{});
+        subscribers.insert({app, std::vector<std::string>{}});
         return manapi::error::status_ok();
     }
     catch (std::exception const &e) {
@@ -271,7 +284,7 @@ manapi::error::status manapi::qt::subscribe_stylesheet(QWidget *app) MANAPIHTTP_
 
 manapi::error::status manapi::qt::subscribe_stylesheet(QWidget *app, std::string_view name) MANAPIHTTP_NOEXCEPT {
     try {
-        subscribers.insert_or_assign(app, std::string{name});
+        subscribers[app].emplace_back(name);
         auto fit = style_ctx.stylesheets.find(name);
         if (fit != style_ctx.stylesheets.end()) {
             app->setStyleSheet(fit->second);
@@ -284,11 +297,28 @@ manapi::error::status manapi::qt::subscribe_stylesheet(QWidget *app, std::string
     return error::status_internal("qt::subscribe_stylesheet failed");
 }
 
+manapi::error::status manapi::qt::subscribe_stylesheet_cb(void *id, std::move_only_function<void()> cb) noexcept(true) {
+    try {
+        auto it = subscribers_cb.insert_or_assign(id, std::move(cb));
+        it.first->second ();
+        return manapi::error::status_ok();
+    }
+    catch (std::exception const &e) {
+        manapi_log_error("%s due to %s", "qt::subscribe_stylesheet failed", e.what());
+    }
+    return error::status_internal("qt::subscribe_stylesheet failed");
+}
+
+void manapi::qt::unsubscribe_stylesheet_cb(void *id) MANAPIHTTP_NOEXCEPT {
+    subscribers_cb.erase(id);
+}
+
 void manapi::qt::unsubscribe_stylesheet(QWidget *app) MANAPIHTTP_NOEXCEPT {
     subscribers.erase(app);
 }
 
 void manapi::qt::unsubscribe_stylesheets() MANAPIHTTP_NOEXCEPT {
+    subscribers_cb.clear();
     subscribers.clear();
 }
 
@@ -306,6 +336,18 @@ const QString * manapi::qt::theme_color(colors color) MANAPIHTTP_NOEXCEPT {
             return &style_ctx.values["$SECONDARY_BG"];
         case COLOR_SECONDARY_FG:
             return &style_ctx.values["$SECONDARY_FG"];
+        case COLOR_CONTENT_BG:
+            return &style_ctx.values["$CONTENT_BG"];
+        case COLOR_CONTENT_FG:
+            return &style_ctx.values["$CONTENT_FG"];
+        case COLOR_SELECTED_BG:
+            return &style_ctx.values["$SELECTED_BG"];
+        case COLOR_SELECTED_FG:
+            return &style_ctx.values["$SELECTED_FG"];
+        case COLOR_CONTENT_SEL_BG:
+            return &style_ctx.values["$CONTENT_SEL_BG"];
+        case COLOR_CONTENT_SEL_FG:
+            return &style_ctx.values["$CONTENT_SEL_FG"];
     }
     return nullptr;
 }

@@ -13,7 +13,13 @@ namespace manapi::qt {
         COLOR_DEFAULT_BG,
         COLOR_DEFAULT_FG,
         COLOR_SECONDARY_BG,
-        COLOR_SECONDARY_FG
+        COLOR_SECONDARY_FG,
+        COLOR_SELECTED_BG,
+        COLOR_SELECTED_FG,
+        COLOR_CONTENT_SEL_BG,
+        COLOR_CONTENT_SEL_FG,
+        COLOR_CONTENT_BG,
+        COLOR_CONTENT_FG
     };
 
     manapi::error::status init_styles (std::string folder) MANAPIHTTP_NOEXCEPT;
@@ -27,6 +33,10 @@ namespace manapi::qt {
     manapi::error::status subscribe_stylesheet (QWidget *app) MANAPIHTTP_NOEXCEPT;
 
     manapi::error::status subscribe_stylesheet (QWidget *app, std::string_view name) MANAPIHTTP_NOEXCEPT;
+
+    manapi::error::status subscribe_stylesheet_cb (void *id, std::move_only_function<void()> cb) MANAPIHTTP_NOEXCEPT;
+
+    void unsubscribe_stylesheet_cb (void *id) MANAPIHTTP_NOEXCEPT;
 
     void unsubscribe_stylesheet (QWidget *app) MANAPIHTTP_NOEXCEPT;
 
