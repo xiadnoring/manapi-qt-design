@@ -13,6 +13,10 @@ QScrollBar::sub-line {
     background: transparent;
 }
 
+QScrollBar::handle:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
 QScrollBar::add-line,
 QScrollBar::sub-line {
     width: 0;

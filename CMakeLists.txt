@@ -62,7 +62,15 @@ else ()
     add_library(${PROJECT_NAME} ${FILES})
 endif ()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE manapihttp Qt6::Core Qt6::Quick Qt6::Widgets Qt6::Gui Qt6::Core5Compat Qt6::Svg)
+find_library(QT6WAYLAND_LIBS NAMES Qt6WaylandClient)
+
+message(STATUS "${QT6WAYLAND_LIBS}")
+
+if (NOT QT6WAYLAND_LIBS)
+    set(QT6WAYLAND_LIBS "")
+endif ()
+
+target_link_libraries(${PROJECT_NAME} PRIVATE manapihttp Qt6::Core Qt6::Quick Qt6::Widgets Qt6::Gui Qt6::Core5Compat Qt6::Svg ${QT6WAYLAND_LIBS})
 target_include_directories(${PROJECT_NAME} PRIVATE ./manapiqt/include ./include)
 
 
