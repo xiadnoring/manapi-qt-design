@@ -2,7 +2,7 @@
 Qt6 and Qt7 are supported. Library based on [ManapiHttp](https://github.com/xiadnoring/manapi-http) and
 [Manapi Qt Extension](https://github.com/xiadnoring/manapi-qt-extension). 
 
-Required [ManapiHttp](https://github.com/xiadnoring/manapi-http) version is ```1.0.3```
+Required [ManapiHttp](https://github.com/xiadnoring/manapi-http) version is ```1.0.5```
 
 <img src="./assets/img.png" style="max-width: 600px">
 
