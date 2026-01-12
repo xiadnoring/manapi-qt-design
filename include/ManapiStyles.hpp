@@ -22,19 +22,19 @@ namespace manapi::qt {
         COLOR_CONTENT_FG
     };
 
-    manapi::error::status init_styles (std::string folder) MANAPIHTTP_NOEXCEPT;
+    manapi::status init_styles (std::string folder) MANAPIHTTP_NOEXCEPT;
 
-    manapi::future<manapi::error::status> load_styles ();
+    manapi::future<manapi::status> load_styles ();
 
-    manapi::future<manapi::error::status> load_styles (std::string folder);
+    manapi::future<manapi::status> load_styles (std::string folder);
 
     void update_stylesheet (QWidget *app, std::string_view name) MANAPIHTTP_NOEXCEPT;
 
-    manapi::error::status subscribe_stylesheet (QWidget *app) MANAPIHTTP_NOEXCEPT;
+    manapi::status subscribe_stylesheet (QWidget *app) MANAPIHTTP_NOEXCEPT;
 
-    manapi::error::status subscribe_stylesheet (QWidget *app, std::string_view name) MANAPIHTTP_NOEXCEPT;
+    manapi::status subscribe_stylesheet (QWidget *app, std::string_view name) MANAPIHTTP_NOEXCEPT;
 
-    manapi::error::status subscribe_stylesheet_cb (void *id, std::move_only_function<void()> cb) MANAPIHTTP_NOEXCEPT;
+    manapi::status subscribe_stylesheet_cb (void *id, std::move_only_function<void()> cb) MANAPIHTTP_NOEXCEPT;
 
     void unsubscribe_stylesheet_cb (void *id) MANAPIHTTP_NOEXCEPT;
 

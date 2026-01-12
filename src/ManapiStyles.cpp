@@ -107,7 +107,7 @@ private:
     }
 };
 
-manapi::error::status manapi::qt::init_styles(std::string folder) MANAPIHTTP_NOEXCEPT {
+manapi::status manapi::qt::init_styles(std::string folder) MANAPIHTTP_NOEXCEPT {
     try {
         QApplication::setStyle(new CustomStyle(QApplication::style()));
 
@@ -162,28 +162,28 @@ manapi::error::status manapi::qt::init_styles(std::string folder) MANAPIHTTP_NOE
 
         QFile svg_font(QString::fromStdString(icons_path));
         if (!svg_font.open(QFile::ReadOnly)) {
-            return manapi::error::status_internal("qt:open file failed");
+            return manapi::status_internal("qt:open file failed");
         }
         QXmlInputSource xml_source(&svg_font);
 
         bool parse_ok = xml_parser.parse(&xml_source);
         if (!parse_ok)
-            return manapi::error::status_internal("qt:SVG parsing failed! Something changed in the SVG Font?");
+            return manapi::status_internal("qt:SVG parsing failed! Something changed in the SVG Font?");
 
         folder_path_ = std::move(folder);
-        return manapi::error::status_ok();
+        return manapi::status_ok();
     }
     catch (std::exception const &e) {
         manapi_log_error("%s due to %s", "qt:init_styles failed", e.what());
-        return manapi::error::status_internal("qt:init_styles failed");
+        return manapi::status_internal("qt:init_styles failed");
     }
 }
 
-manapi::future<manapi::error::status> manapi::qt::load_styles() {
+manapi::future<manapi::status> manapi::qt::load_styles() {
     return load_styles(folder_path_);
 }
 
-manapi::future<manapi::error::status> manapi::qt::load_styles(std::string folder) {
+manapi::future<manapi::status> manapi::qt::load_styles(std::string folder) {
     try {
         std::map<std::string, QString, std::less<>> stylesheets = {};
 
@@ -220,7 +220,7 @@ manapi::future<manapi::error::status> manapi::qt::load_styles(std::string folder
         }
 
         if (vars_failed) {
-            co_return error::status_invalid_argument("theme config must contain only string: string pairs in 'vars'");
+            co_return manapi::status_invalid_argument("theme config must contain only string: string pairs in 'vars'");
         }
 
         for (auto & css_file : css_files.each()) {
@@ -256,12 +256,12 @@ manapi::future<manapi::error::status> manapi::qt::load_styles(std::string folder
             subscriber.second ();
         }
 
-        co_return manapi::error::status_ok();
+        co_return manapi::status_ok();
     }
     catch (std::exception const &e) {
         manapi_log_error("%s due to %s", "qt::load_styles() failed", e.what());
     }
-    co_return error::status_internal("qt::load_styles() failed");
+    co_return manapi::status_internal("qt::load_styles() failed");
 }
 
 void manapi::qt::update_stylesheet(QWidget *app, std::string_view name) MANAPIHTTP_NOEXCEPT {
@@ -271,42 +271,42 @@ void manapi::qt::update_stylesheet(QWidget *app, std::string_view name) MANAPIHT
     }
 }
 
-manapi::error::status manapi::qt::subscribe_stylesheet(QWidget *app) MANAPIHTTP_NOEXCEPT {
+manapi::status manapi::qt::subscribe_stylesheet(QWidget *app) MANAPIHTTP_NOEXCEPT {
     try {
         subscribers.insert({app, std::vector<std::string>{}});
-        return manapi::error::status_ok();
+        return manapi::status_ok();
     }
     catch (std::exception const &e) {
         manapi_log_error("%s due to %s", "qt::subscribe_stylesheet failed", e.what());
     }
-    return error::status_internal("qt::subscribe_stylesheet failed");
+    return manapi::status_internal("qt::subscribe_stylesheet failed");
 }
 
-manapi::error::status manapi::qt::subscribe_stylesheet(QWidget *app, std::string_view name) MANAPIHTTP_NOEXCEPT {
+manapi::status manapi::qt::subscribe_stylesheet(QWidget *app, std::string_view name) MANAPIHTTP_NOEXCEPT {
     try {
         subscribers[app].emplace_back(name);
         auto fit = style_ctx.stylesheets.find(name);
         if (fit != style_ctx.stylesheets.end()) {
             app->setStyleSheet(fit->second);
         }
-        return manapi::error::status_ok();
+        return manapi::status_ok();
     }
     catch (std::exception const &e) {
         manapi_log_error("%s due to %s", "qt::subscribe_stylesheet failed", e.what());
     }
-    return error::status_internal("qt::subscribe_stylesheet failed");
+    return manapi::status_internal("qt::subscribe_stylesheet failed");
 }
 
-manapi::error::status manapi::qt::subscribe_stylesheet_cb(void *id, std::move_only_function<void()> cb) noexcept(true) {
+manapi::status manapi::qt::subscribe_stylesheet_cb(void *id, std::move_only_function<void()> cb) noexcept(true) {
     try {
         auto it = subscribers_cb.insert_or_assign(id, std::move(cb));
         it.first->second ();
-        return manapi::error::status_ok();
+        return manapi::status_ok();
     }
     catch (std::exception const &e) {
         manapi_log_error("%s due to %s", "qt::subscribe_stylesheet failed", e.what());
     }
-    return error::status_internal("qt::subscribe_stylesheet failed");
+    return manapi::status_internal("qt::subscribe_stylesheet failed");
 }
 
 void manapi::qt::unsubscribe_stylesheet_cb(void *id) MANAPIHTTP_NOEXCEPT {

@@ -4,6 +4,7 @@
 #include <manapihttp/std/ManapiScopePtr.hpp>
 #include <manapihttp/fs/ManapiFilesystem.hpp>
 #include <manapihttp/std/ManapiBeforeDelete.hpp>
+#include <manapihttp/ManapiTimerPool.hpp>
 
 #include <fstream>
 #include <iostream>
@@ -13,6 +14,7 @@
 #include <QTextEdit>
 #include <QWidget>
 #include <QLabel>
+#include <QFileDialog>
 #include <QFormLayout>
 #include <QPushButton>
 #include <QMainWindow>
@@ -26,10 +28,10 @@
 #include <QTableWidget>
 
 #include "ManapiAction.hpp"
+#include "ManapiEventDispatcher.hpp"
 #include "ManapiFlatButton.hpp"
 #include "ManapiIconButton.hpp"
 #include "ManapiPrimaryButton.hpp"
-#include "ManapiQt.hpp"
 #include "ManapiSecondaryButton.hpp"
 #include "ManapiStyles.hpp"
 #include "ManapiLineEdit.hpp"
@@ -48,9 +50,7 @@ int main(int argc, char *argv[]) {
     auto ctx = manapi::async::context::create(0).unwrap();
 
     ctx->run (0, [&] (const std::function<void()>& cb) -> void {
-        auto event_dispatcher = manapi::qt::event_dispatcher::create().unwrap();
-        QCoreApplication::setEventDispatcher(event_dispatcher);
-
+        manapi::qt::EventDispatcherWrapper event_dispatcher;
         QApplication app (argc, argv);
         QApplication::setStyle("Basic");
         QMainWindow window;
@@ -426,7 +426,8 @@ int main(int argc, char *argv[]) {
         });
 
         QWidget::connect(sayhello, &QAction::triggered, [] () -> void {
-            manapi_log_debug("Hello, World!");
+            QString myDir = QFileDialog::getExistingDirectory();
+            manapi_log_debug("Hello, World! %s", myDir.toStdString().data());
         });
 
         QWidget::connect(btn_icon2.get(), &QPushButton::clicked, [testmenu = testmenu.get()] () -> void {
@@ -441,18 +442,18 @@ int main(int argc, char *argv[]) {
             manapi::unwrap(co_await manapi::qt::load_styles());
         });
 
-        manapi::async::current()->eventloop()->custom_event_loop([&app, event_dispatcher] ()
+        manapi::async::current()->eventloop()->custom_event_loop([&app, &event_dispatcher] ()
             -> void {
             QApplication::exec();
             manapi::qt::unsubscribe_stylesheets();
-            event_dispatcher->unsubscribe();
+            event_dispatcher.unsubscribe();
         });
 
         manapi::async::run ([] () -> manapi::future<> {
             manapi::unwrap(co_await manapi::qt::load_styles());
         });
 
-        manapi::async::current()->timerpool()->append_interval_sync(1,
+        manapi::async::current()->timerpool()->append_interval_sync(100,
             [label = label.get()] (const manapi::timer &) -> void {
             label->setText(QString::fromStdString(std::format("{:}",
                 manapi::time::current_time())));

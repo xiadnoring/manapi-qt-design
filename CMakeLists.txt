@@ -54,7 +54,9 @@ set(FILES ./manapiqt/include/ManapiQt.hpp
         include/ManapiTableView.hpp
         src/ManapiTableView.cpp
         include/ManapiScrollBar.hpp
-        src/ManapiScrollBar.cpp)
+        src/ManapiScrollBar.cpp
+        include/ManapiEventDispatcher.hpp
+        src/ManapiEventDispatcher.cpp)
 
 if (MANAPIQT_BUILD_TYPE STREQUAL "exe")
     add_executable(${PROJECT_NAME} main.cpp ${FILES})
