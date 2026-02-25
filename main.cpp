@@ -25,7 +25,9 @@
 #include <qstandarditemmodel.h>
 #include <QTabWidget>
 #include <QHeaderView>
+#include <QDesktopServices>
 #include <QTableWidget>
+#include <thread>
 
 #include "ManapiAction.hpp"
 #include "ManapiEventDispatcher.hpp"
@@ -425,8 +427,9 @@ int main(int argc, char *argv[]) {
 
         });
 
-        QWidget::connect(sayhello, &QAction::triggered, [] () -> void {
-            QString myDir = QFileDialog::getExistingDirectory();
+        QWidget::connect(sayhello, &QAction::triggered, [&window] () -> void {
+            QString myDir;
+                    myDir = QFileDialog::getExistingDirectory(nullptr, {}, {}, QFileDialog::ShowDirsOnly);
             manapi_log_debug("Hello, World! %s", myDir.toStdString().data());
         });
 
@@ -453,13 +456,15 @@ int main(int argc, char *argv[]) {
             manapi::unwrap(co_await manapi::qt::load_styles());
         });
 
-        manapi::async::current()->timerpool()->append_interval_sync(100,
+        auto t = manapi::async::current()->timerpool()->append_interval_sync(100,
             [label = label.get()] (const manapi::timer &) -> void {
             label->setText(QString::fromStdString(std::format("{:}",
                 manapi::time::current_time())));
-        });
+        }).unwrap();
 
         cb ();
+
+        t.stop();
     });
 
     return 0;

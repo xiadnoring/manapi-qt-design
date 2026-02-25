@@ -12,6 +12,7 @@ namespace manapi::qt {
 
     private:
         QPoint m_pressPos;
-        int m_initialValue = 0;
+        int m_initialValue;
+        int m_active;
     };
 }

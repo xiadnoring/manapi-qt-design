@@ -1,11 +1,12 @@
 #include <QHeaderView>
 #include <QPainter>
+#include <QScrollBar>
 
 #include "ManapiTreeView.hpp"
+#include "ManapiScrollBar.hpp"
+#include "ManapiStyles.hpp"
 
 #include <manapihttp/std/ManapiScopePtr.hpp>
-
-#include "ManapiStyles.hpp"
 
 manapi::qt::TreeView::TreeView(QWidget *parent) : QTreeView(parent) {
     this->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -16,6 +17,8 @@ manapi::qt::TreeView::TreeView(QWidget *parent) : QTreeView(parent) {
     this->setTextElideMode(Qt::ElideNone);
     this->setHorizontalScrollMode(ScrollPerPixel);
     this->setVerticalScrollMode(ScrollPerPixel);
+    this->verticalScrollBar()->installEventFilter(new manapi::qt::ScrollBarFixFilter ());
+    this->horizontalScrollBar()->installEventFilter(new manapi::qt::ScrollBarFixFilter ());
     this->header()->setSectionResizeMode(QHeaderView::Stretch);
 
     manapi::qt::subscribe_stylesheet(this, "tree_view.css").unwrap();

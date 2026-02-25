@@ -10,7 +10,6 @@ manapi::qt::EventDispatcherWrapper::EventDispatcherWrapper() {
 }
 
 manapi::qt::EventDispatcherWrapper::~EventDispatcherWrapper() {
-
 }
 
 void manapi::qt::EventDispatcherWrapper::unsubscribe() {
