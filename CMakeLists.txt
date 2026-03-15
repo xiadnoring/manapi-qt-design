@@ -11,8 +11,10 @@ cmake_policy(SET CMP0070 NEW)
 OPTION(MANAPIQT_BUILD_TYPE "Build result: binary or library" "lib")
 OPTION(MANAPIQT_INSTALL_ARCH "/x86_64-linux-gnu for example" "")
 
+set(QT_NO_PRIVATE_MODULE_WARNING ON)
+
 find_package(manapihttp REQUIRED)
-find_package(Qt6 REQUIRED COMPONENTS Core Quick Widgets Gui Core5Compat Svg)
+find_package(Qt6 REQUIRED COMPONENTS Core Quick Widgets Gui Core5Compat Svg GuiPrivate)
 
 set(CMAKE_AUTOMOC ON)
 if (WIN32)
@@ -72,7 +74,7 @@ if (NOT QT6WAYLAND_LIBS)
     set(QT6WAYLAND_LIBS "")
 endif ()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE manapihttp Qt6::Core Qt6::Quick Qt6::Widgets Qt6::Gui Qt6::Core5Compat Qt6::Svg ${QT6WAYLAND_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE manapihttp Qt6::Core Qt6::Quick Qt6::Widgets Qt6::Gui Qt6::Core5Compat Qt6::Svg Qt6::GuiPrivate ${QT6WAYLAND_LIBS})
 target_include_directories(${PROJECT_NAME} PRIVATE ./manapiqt/include ./include)
 
 

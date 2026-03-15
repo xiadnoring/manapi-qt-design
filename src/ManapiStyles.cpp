@@ -111,7 +111,7 @@ manapi::status manapi::qt::init_styles(std::string folder) MANAPIHTTP_NOEXCEPT {
     try {
         QApplication::setStyle(new CustomStyle(QApplication::style()));
 
-        auto path = (manapi::filesystem::path::join(folder, "config.json"));
+        auto path = (manapi::fs::path::join(folder, "config.json"));
         std::ifstream input (path, std::ios::in);
         std::string s;
         while (!input.eof()) {
@@ -128,7 +128,7 @@ manapi::status manapi::qt::init_styles(std::string folder) MANAPIHTTP_NOEXCEPT {
 
         config_mask.valid(config).unwrap();
 
-        auto const icons_path = manapi::filesystem::path::join(folder, config["icons"].as_string());
+        auto const icons_path = manapi::fs::path::join(folder, config["icons"].as_string());
 
         class SvgGlyphReader : public QXmlDefaultHandler
         {
@@ -188,16 +188,16 @@ manapi::future<manapi::status> manapi::qt::load_styles(std::string folder) {
         std::map<std::string, QString, std::less<>> stylesheets = {};
 
         auto config = manapi::unwrap(manapi::json::parse(unwrap(
-            co_await manapi::filesystem::async_read(manapi::filesystem::path::join(folder, "config.json")))));
+            co_await manapi::fs::async_read(manapi::fs::path::join(folder, "config.json")))));
 
         config_mask.valid(config).unwrap();
 
         auto const &theme = config["theme"].as_string();
         auto const &css_files = config["css"];
-        auto const icons_path = manapi::filesystem::path::join(folder, config["icons"].as_string());
+        auto const icons_path = manapi::fs::path::join(folder, config["icons"].as_string());
 
         auto values = manapi::unwrap(manapi::json::parse(unwrap(
-            co_await manapi::filesystem::async_read(manapi::filesystem::path::join(folder, theme)))));
+            co_await manapi::fs::async_read(manapi::fs::path::join(folder, theme)))));
 
         config_theme_mask.valid(values).unwrap();
 
@@ -225,7 +225,7 @@ manapi::future<manapi::status> manapi::qt::load_styles(std::string folder) {
 
         for (auto & css_file : css_files.each()) {
             auto stylesheet = QString::fromStdString(unwrap(
-                co_await manapi::filesystem::async_read(manapi::filesystem::path::join(folder, css_file.as_string()))));
+                co_await manapi::fs::async_read(manapi::fs::path::join(folder, css_file.as_string()))));
             for (auto & var : style_ctx.values) {
                 stylesheet.replace(var.first, var.second);
             }
